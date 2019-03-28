@@ -19,3 +19,5 @@ dependencies:
 - holoviews
 - pymc3
 - pyjanitor
+- flake8
+- mypy
