@@ -112,3 +112,7 @@ with pm.Model() as model:
 ## Side Note: Flexibility
 
 If our estimation problem didn't deal with continuous outputs, all we would have to do is to replace the likelihood with a different distribution.
+
+<!-- Put figure here comparing the two -->
+
+##
