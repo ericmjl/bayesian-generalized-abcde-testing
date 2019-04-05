@@ -115,4 +115,92 @@ If our estimation problem didn't deal with continuous outputs, all we would have
 
 <!-- Put figure here comparing the two -->
 
-##
+## Click Data
+
+We have run an experiment on our hotel bookings website, in which we decided to assign our customers to view a new interface that:
+
+- Is not different from the original.
+- Displays a pop-up that previews pictures of our partner hotel rooms.
+- Ranks results by a new scoring function for hotel value for money.
+
+Our customers are searching for flights, and we have collected the number of clicks that they have made before making their purchases.
+
+A sample of the data looks like this:
+
+```
+     experiment_group  clicks
+4765             grp1       6
+1901             ctrl       2
+8912             grp2       2
+3840             grp1       3
+3341             grp1       6
+7847             grp2       1
+6515             grp2       2
+8339             grp2       2
+5579             grp1       1
+5834             grp1       3
+```
+
+### Data Characteristics
+
+Some characteristics of the data are as follows:
+
+- Lots of people don't click on anything
+- Some people will click on more than 1 entry before they decide on which hotel they want to stay at.
+
+![](./images/clicks.png)
+
+### Model
+
+We need an estimation model that helps us *tell a story* about how the data came about.
+
+```python
+with pm.Model() as model:
+    mu_prior_lam = pm.HalfCauchy('mu_prior_lam', beta=1)
+    mu = pm.HalfNormal('mu', sd=mu_prior_lam, shape=(3,))
+    mu_enc = mu[data['experiment_group_enc']]
+
+    alpha_prior_lam = pm.HalfCauchy('alpha_prior_lam', beta=1)
+    alpha = pm.HalfNormal('alpha', sd=alpha_prior_lam, shape=(3,))
+    alpha_enc = alpha[data['experiment_group_enc']]
+
+    # models the probability of purchasing.
+    p_purchase = pm.Deterministic('p_purchase', mu / (mu + alpha))
+
+    p = pm.Beta('p', alpha=1, beta=1, shape=(3,))
+    p_enc = p[data['experiment_group_enc']]
+
+    like = pm.ZeroInflatedNegativeBinomial('like', mu=mu_enc, alpha=alpha_enc, psi=p_enc, observed=data['clicks'])
+```
+
+### Model Interpretation
+
+In this model, we use a zero-inflated negative binomial distribution to model the data. This let's us tell a generative story for the data, which can map easily onto our data.
+
+We essentially have a mixture model, one in which there is a point distribution at zero, and one in which there is another distribution modelling the number of clicks a customer needs to make before they make a final decision.
+
+- A fraction of customers don't even click on anything, for whatever reason.
+- A fraction of customers do click on something, and their decision to purchase can be modelled like a negative binomial distribution, which models numbers of successes before first decision to stop (or, in this case, number of clicks before first purchase).
+
+Put more precisely, we can map those ideas onto the parameters:
+
+- `p` models the probability of being in the group that clicks.
+- `p_purchase` models the probability of actually making a purchase, given that a customer does click.
+
+### Inferences
+
+So, what do our model reveal?
+
+![](./images/click.posterior.trace.png)
+
+![](./images/click.p.forest.png)
+
+![](./images/click.p_purchase.forest.png)
+
+Intervention 0 is our baseline; both interventions 1 and 2 increase the probability that our customers click a hotel, while only intervention 1 also increases the probability that our customers will actually make a purchase. What was intervention 1? It was the website putting up mouseovers of pictures! Turns out pictures are pretty darn effective!
+
+### Key Lessons
+
+- A PPL allows us to writing down a probability model, in which we are able to map key parameters of interest to interpretable, real-life things.
+- We get to focus on model specification; backwards inference is automated.
+- We compared 3 groups! As usual, no reason to stop at 2.
