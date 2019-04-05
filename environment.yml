@@ -14,7 +14,7 @@ dependencies:
 - numpy
 - matplotlib
 - seaborn
-- theano
+- theano >=1.0.4
 - bokeh
 - holoviews
 - pymc3
