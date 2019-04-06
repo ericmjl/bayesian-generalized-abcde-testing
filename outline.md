@@ -30,7 +30,7 @@ Affiliation: Novartis Institutes for Biomedical Research
 
 <!-- What are you most used to seeing? T-test -->
 
-![](./images/best.png)
+![Bayesian estimation with two groups](./images/best.png)
 
 Let's say we're measuring the effect of an intervention on IQ.
 
@@ -83,7 +83,7 @@ There's no reason why we should stop at 2 groups.
 
 ## Bayesian Estimation: Extension to >3 Groups
 
-![](./images/best-3-groups.png)
+![Bayesian estimation with 3 groups](./images/best-3-groups.png)
 
 ```python
 n_groups = ...
@@ -127,7 +127,7 @@ Our customers are searching for flights, and we have collected the number of cli
 
 A sample of the data looks like this:
 
-```
+```ipython
      experiment_group  clicks
 4765             grp1       6
 1901             ctrl       2
@@ -148,7 +148,7 @@ Some characteristics of the data are as follows:
 - Lots of people don't click on anything
 - Some people will click on more than 1 entry before they decide on which hotel they want to stay at.
 
-![](./images/clicks.png)
+![Click data histogram](./images/clicks.png)
 
 ### Model
 
@@ -191,11 +191,11 @@ Put more precisely, we can map those ideas onto the parameters:
 
 So, what do our model reveal?
 
-![](./images/click.posterior.trace.png)
+![Trace plots for all parameters](./images/click.posterior.trace.png)
 
-![](./images/click.p.forest.png)
+![Forest plots for `p` parameter](./images/click.p.forest.png)
 
-![](./images/click.p_purchase.forest.png)
+![Forest plots for `p_purchase` parameter](./images/click.p_purchase.forest.png)
 
 Intervention 0 is our baseline; both interventions 1 and 2 increase the probability that our customers click a hotel, while only intervention 1 also increases the probability that our customers will actually make a purchase. What was intervention 1? It was the website putting up mouseovers of pictures! Turns out pictures are pretty darn effective!
 
