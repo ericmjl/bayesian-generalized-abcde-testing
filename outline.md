@@ -53,7 +53,7 @@ We:
 
 If we make all of these assumptions plain and clear, we arrive at Bayesian estimation.
 
-Let's very quickly look at the model +
+Let's very quickly look at the model + code.
 
 ### Code
 
@@ -77,11 +77,11 @@ with pm.Model() as model:
 In Bayesian estimation, we:
 
 - estimate the parameters for each group, and then
-- compare them
+- compare them.
 
 There's no reason why we should stop at 2 groups.
 
-## Bayesian Estimation: Extension to >3 Groups
+## Bayesian Estimation: Extension to 3 Groups
 
 ![Bayesian estimation with 3 groups](./images/best-3-groups.png)
 
@@ -114,6 +114,12 @@ with pm.Model() as model:
 If our estimation problem didn't deal with continuous outputs, all we would have to do is to replace the likelihood with a different distribution.
 
 <!-- Put figure here comparing the two -->
+
+## Side Note: Multiple hypothesis correction
+
+My tongue-in-cheek response: you only need it if you have a hypothesis you're trying to prove. Which should be never.
+
+My more serious response: It's convoluted and difficult to understand, has its own set of assumptions which we may need to break. Let's just use a PPL which lets us be explicit with our assumptions.
 
 ## Click Data
 
@@ -201,6 +207,30 @@ Intervention 0 is our baseline; both interventions 1 and 2 increase the probabil
 
 ### Key Lessons
 
-- A PPL allows us to writing down a probability model, in which we are able to map key parameters of interest to interpretable, real-life things.
-- We get to focus on model specification; backwards inference is automated.
-- We compared 3 groups! As usual, no reason to stop at 2.
+- A PPL allows us to focus on writing down a probability model, in which we are able to map key parameters of interest to interpretable, real-life things.
+- We compared 3 groups! As usual, no reason to stop at 2. No reason to stop even at 3! Compare as many groups as you need to.
+- Note the conspicuous absence of the t-test. All we have to do is read off our interpretation.
+
+## Quantifying Molecule Properties
+
+Molecules cause changes in biological systems, say, by changing the activity of a protein, in a way that is dependent on the concentration of the molecule. If we're lucky, we get to measure these properties, and can measure dose-response curves.
+
+But sometimes, we don't ever really measure certain concentration ranges, for whatever reason. For other reasons, say, procedural or technical, we are left with missing values in the measurement.
+
+<!-- Show figures of measurement scenarios. Ideal: measure everything, capture all ends of the curve; reality: miss some concentrations. Miss upper range, miss some in the middle. We use a model, i.e. a mathematical equation, to capture the relationship where we miss things. -->
+
+### Code
+
+<!-- Emphasize how we can fit thousands of molecules at one shot, and if we need a quick check first, two hacks:
+1. Subsample number of groups.
+1. Use ADVI to approximate first.
+-->
+
+### Interpretation
+
+
+## Key Takeaways
+
+1. The generalized form of A/B tests is A/B\[/C/D/E\] testing. You should never worry about just doing two groups.
+1. PyMC3 (and its next generation, PyMC4) can help you express the model in an easily readable language, and provides tooling to enable this.
+1. Go Bayes!
