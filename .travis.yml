@@ -1,0 +1,48 @@
+sudo: required
+addons:
+  chrome: stable
+language: python
+python:
+  # We don't actually use the Travis Python, but this keeps it organized.
+  - "3.5"
+install:
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+
+  # Useful for debugging any issues with conda
+  - conda info -a
+
+  # Install Python and required packages.
+  - conda env create -f environment.yml
+  - source activate abcde-testing
+
+
+script:
+  # Create docs directory and move assets into there.
+  - mkdir -p docs
+  - cp -r assets/ docs/.
+  - cp index.html docs/.
+
+
+# This is an example to deploy to a branch through Travis.
+deploy:
+  provider: pages
+  skip-cleanup: true
+  # Set in the settings page of your repository, as a secure variable
+  github-token: $GITHUB_TOKEN
+  # setting force pushes to false, to prevent a bloated repository.
+  keep-history: false
+  # We read the master branch
+  on:
+    branch: master
+  # Take the docs/ directory
+  local-dir: docs
+  # Publish to the gh-pages branch
+  target-branch: gh-pages
+  verbose: true
