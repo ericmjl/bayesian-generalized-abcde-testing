@@ -7,11 +7,11 @@
 
     <title>reveal.js</title>
 
-    <link rel="stylesheet" href="revealjs/css/reveal.css">
-    <link rel="stylesheet" href="revealjs/css/theme/white.css">
+    <link rel="stylesheet" href="./revealjs/css/reveal.css">
+    <link rel="stylesheet" href="./revealjs/css/theme/white.css">
 
     <!-- Theme used for syntax highlighting of code -->
-    <link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
+    <link rel="stylesheet" href="./revealjs/lib/css/zenburn.css">
     <link rel="stylesheet" href="./assets/css/custom.css">
 
     <!-- Printing and PDF exports -->
@@ -94,8 +94,8 @@
         </div>
     </div>
 
-    <script src="revealjs/lib/js/head.min.js"></script>
-    <script src="revealjs/js/reveal.js"></script>
+    <script src="./revealjs/lib/js/head.min.js"></script>
+    <script src="./revealjs/js/reveal.js"></script>
 
     <script>
         // More info about config & dependencies:
@@ -103,10 +103,10 @@
         // - https://github.com/hakimel/reveal.js#dependencies
         Reveal.initialize({
             dependencies: [
-                { src: 'revealjs/plugin/markdown/marked.js' },
-                { src: 'revealjs/plugin/markdown/markdown.js' },
-                { src: 'revealjs/plugin/notes/notes.js', async: true },
-                { src: 'revealjs/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+                { src: './revealjs/plugin/markdown/marked.js' },
+                { src: './revealjs/plugin/markdown/markdown.js' },
+                { src: './revealjs/plugin/notes/notes.js', async: true },
+                { src: './revealjs/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
             ]
         });
     </script>
