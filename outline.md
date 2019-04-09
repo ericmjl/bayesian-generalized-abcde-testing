@@ -232,5 +232,6 @@ But sometimes, we don't ever really measure certain concentration ranges, for wh
 ## Key Takeaways
 
 1. The generalized form of A/B tests is A/B\[/C/D/E\] testing. You should never worry about just doing two groups.
-1. PyMC3 (and its next generation, PyMC4) can help you express the model in an easily readable language, and provides tooling to enable this.
+1. PyMC3 (and its next generation, PyMC4) can help you express the model in an easily readable language, and provides tooling to handle the complicated math.
+1. With a PPL, you can think in terms of the generative model for the data.
 1. Go Bayes!
