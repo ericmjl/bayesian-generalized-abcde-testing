@@ -1,49 +1,83 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="revealjs/css/reveal.css">
-		<link rel="stylesheet" href="revealjs/css/theme/black.css">
+    <title>reveal.js</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
+    <link rel="stylesheet" href="revealjs/css/reveal.css">
+    <link rel="stylesheet" href="revealjs/css/theme/white.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'revealjs/css/print/pdf.css' : 'revealjs/css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
+    <link rel="stylesheet" href="./assets/css/custom.css">
 
-		<script src="revealjs/lib/js/head.min.js"></script>
-		<script src="revealjs/js/reveal.js"></script>
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'revealjs/css/print/pdf.css' : 'revealjs/css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'revealjs/plugin/markdown/marked.js' },
-					{ src: 'revealjs/plugin/markdown/markdown.js' },
-					{ src: 'revealjs/plugin/notes/notes.js', async: true },
-					{ src: 'revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section id="title">
+                <h1>Beyond Two Groups</h1>
+                <p>a.k.a. "how to go beyond A/B testing"</p>
+            </section>
+            <section id="about-me">
+                <h2>About Me</h2>
+                <table>
+                    <tr>
+                        <td width="33%" style="border-width: 0; vertical-align: bottom">
+                            <img src="./assets/images/logos/novartis.gif" alt="">
+                        </td>
+                        <td width="33%" style="border-width: 0; vertical-align: bottom">
+                            <img src="./assets/images/logos/mit.gif" alt="">
+                        </td>
+                        <td width="33%" style="border-width: 0; vertical-align: bottom">
+                            <img src="./assets/images/logos/python.gif" alt="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Investigator, Scientific Data Analysis</p>
+                        </td>
+                        <td>
+                            <p>ScD, Biological Engineering, 2017</p>
+                        </td>
+                        <td>
+                            <p>Bayesian Learning, Network Science</p>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            <section>Slide 2</section>
+        </div>
+    </div>
+
+    <script src="revealjs/lib/js/head.min.js"></script>
+    <script src="revealjs/js/reveal.js"></script>
+
+    <script>
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            dependencies: [
+                { src: 'revealjs/plugin/markdown/marked.js' },
+                { src: 'revealjs/plugin/markdown/markdown.js' },
+                { src: 'revealjs/plugin/notes/notes.js', async: true },
+                { src: 'revealjs/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+</body>
+
 </html>
