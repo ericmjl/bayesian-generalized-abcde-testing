@@ -2,7 +2,6 @@
     background:none;
     border:none;
     box-shadow:none;
-    max-width: 768px;
-    max-height: 80%;
-    height: auto;
+    max-height: 50vh;
+    width: auto;
 }
