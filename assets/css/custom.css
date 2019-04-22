@@ -1,1 +1,8 @@
-.reveal section img { background:none; border:none; box-shadow:none; }
+.reveal section img {
+    background:none;
+    border:none;
+    box-shadow:none;
+    max-width: 768px;
+    max-height: 80%;
+    height: auto;
+}
