@@ -28,8 +28,9 @@
     <div class="reveal">
         <div class="slides">
             <section id="title">
-                <h1>Beyond Two Groups</h1>
-                <p>a.k.a. "how to go beyond A/B testing"</p>
+                <h2>Beyond Two Groups: Generalized Bayesian A/B[/C/D/E...] Testing</h2>
+                <p>Eric J. Ma</p>
+                <p>PyCon 2019, Cleveland, OH</p>
             </section>
             <section id="about-me">
                 <h2>About Me</h2>
@@ -53,7 +54,7 @@
                             <p>ScD, Biological Engineering, 2017</p>
                         </td>
                         <td>
-                            <p>Bayesian Learning, Network Science</p>
+                            <p>Bayesian Stats, ML, Network Science</p>
                         </td>
                     </tr>
                 </table>
@@ -68,29 +69,284 @@
                     <p>I'm here to share two messages.</p>
                 </section>
                 <section>
-                    <p><b>Message 1: </b>You can do comparisons beyond just group "A" and group "B". You can add groups
-                        "C", "D", "E" and more.</p>
+                    <p><b>Message 1: </b>You can do comparisons beyond just group "A" and group "B". With Bayesian
+                        methods, you can add groups "C", "D", "E" and more.</p>
                 </section>
                 <section>
-                    <p><b>Message 2: </b>Using a probabilistic programming language, such as PyMC3, lets you do this in
-                        a principled fashion with a wonderful API.</p>
+                    <p><b>Message 2: </b>You don't have to stick to t-distributions.</p>
                 </section>
             </section>
-            <section>
+            <section id="preliminaries">
+                <section>
+                    <h2>Assumed Knowledge</h2>
+                    <img src="assets/images/beliefs.jpg">
+                </section>
+                <section>
+                    <h2>Assumed Knowledge</h2>
+                    <ul>Bayesian statistics is not foreign to you, but nonetheless not .</ul>
+                </section>
+                <section>
+                    <h2>Talk Features</h2>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </section>
+            </section>
+            <section id="hans-rosling-quote">
                 <section data-background-video="./assets/hans-rosling-crop.mkv">
                     <blockquote style="background-color: hsla(167, 91%, 57%, 0.7)">When I see a lonely number in a news
                         report, it always triggers an alarm: <b><i>What should this lonely number be compared
                                 to?</i></b>
                     </blockquote>
                 </section>
+            </section>
+            <section id="drug-iq-example">
+                <section>
+                    <h2>Example 1: Drug IQ Example</h2>
+                    <p>Taken from Kruschke, 2013.</p>
+                </section>
+                <section>
+                    <img src="assets/images/drug-two-group.png" alt="two groups testing">
+                </section>
+                <section>
+                    <p>Let's bust out the t-test!</p>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ```python
+                        >>> from scipy.stats import ttest_ind
+                        >>> ttest_ind(drug, placebo)
+                        Ttest_indResult(
+                            statistic=2.280670163432955,
+                            pvalue=0.025011500508647616
+                        )
+                        ```
+                    </textarea>
+                </section>
+                <section>
+                    What if we had 4 groups instead of 2?
+                </section>
+                <section>
+                    <img src="assets/images/drug-four-group.png" alt="four groups testing">
+                </section>
+                <section>
+                    <p>Let's bust out the ANOVA + post-hoc t-test!</p>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ```python
+                        >>> from scipy.stats import f_oneway
+                        >>> f_oneway(drug, placebo, drug_and_studying)
+                        F_onewayResult(
+                            statistic=2.403088960707778,
+                            pvalue=0.09457235703157442
+                        )
+                        ```
+                    </textarea>
+                </section>
+                <section>
+                        <h2>Not statistically significant!!!</h2>
+                        <img src="./assets/images/kermit-oh-no.gif" alt="">
+                </section>
+                <section>
+                    <p>Let's continue anyways.</p>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Pairwise t-tests:
+
+                        ```python
+                        >>> ttest_ind(drug, placebo)
+                        Ttest_indResult(
+                            statistic=2.280670163432955,
+                            pvalue=0.025011500508647616
+                        )
+                        >>> ttest_ind(drug, drug_and_studying)
+                        Ttest_indResult(
+                            statistic=0.9409554147596239,
+                            pvalue=0.3493942196130586
+                        )
+                        >>> ttest_ind(drug_and_studying, placebo)
+                        Ttest_indResult(
+                            statistic=1.1448161210230416,
+                            pvalue=0.25569885246431134
+                        )
+                        ...
+                        ```
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    What now? Multiple hypothesis correction?
+                </section>
+                <section>
+                    <p>What if I had more groups tested together?</p>
+                    <img src="assets/images/groups_choose_two.png">
+                </section>
+                <section>
+                    <h2>Problem 1: Violated Assumptions</h2>
+                    <ul>
+                        <li>Data are normally distributed?</li>
+                        <li>Standard deviations are equal?</li>
+                        <li>Independent samples?</li>
+                    </ul>
+                </section>
+                <section>
+                    <p>Let's stop violating assumptions.</p>
+                    <img src="https://i.chzbgr.com/full/7018290432/h3DEC1F2B/" alt="">
+                </section>
+                <section>
+                    <h2>Problem 2: What are we actually interested in?</h2>
+                    <ul>
+                        <li>P-values?</li>
+                        <li>Direction of effect and actionable inferences?</li>
+                    </ul>
+                    <p>Do we really need a convoluted, canned, statistical protocol?</p>
+                </section>
                 <section>
                     <ul>
-                        <li>Comparison is a cornerstone activity of scientific inquiry.</li>
-                        <li>Without comparison, how do we know if a change has an effect?</li>
+                        <li>Let's do this Bayesian style instead.</li>
+                        <li>Carefully model the <b>data likelihood</b> and its key parameters.</li>
+                    </ul>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ```python
+                        n_groups = len(df['group'].unique())
+                        with pm.Model() as model:
+                            # Model Parameters
+                            mu = pm.Normal('mu', mu=0, sd=10, shape=n_groups)
+                            sigma = pm.HalfCauchy('sigma', beta=5, shape=n_groups)
+                            nu = pm.Exponential('nu', lam=1/29.)
+
+                            # Likelihood
+                            like = pm.StudentT(
+                                'like',
+                                mu=mu[df['group_enc']],
+                                sd=sigma[df['group_enc']],
+                                nu=nu,
+                                observed=df['iq'].values
+                            )
+
+                            trace = pm.sample(2000)
+                        ```
+                    </textarea>
+                </section>
+                <section>
+                    <p>Compare this:</p>
+                    <img style="max-height:80%; max-width:60%" src="assets/images/drug-four-group-forest.png">
+                </section>
+                <section data-markdown>
+                        <textarea data-template>
+                            Against this:
+
+                            ```python
+                            >>> ttest_ind(drug, placebo)
+                            Ttest_indResult(
+                                statistic=2.280670163432955,
+                                pvalue=0.025011500508647616
+                            )
+                            >>> ttest_ind(drug, drug_and_studying)
+                            Ttest_indResult(
+                                statistic=0.9409554147596239,
+                                pvalue=0.3493942196130586
+                            )
+                            >>> ttest_ind(drug_and_studying, placebo)
+                            Ttest_indResult(
+                                statistic=1.1448161210230416,
+                                pvalue=0.25569885246431134
+                            )
+                            ...
+                            ```
+                        </textarea>
+                    </section>
+
+                <section>
+                    <h2>Key Lessons</h2>
+                </section>
+                <section>
+                    <b>No multiple hypothesis correction: </b>Posterior distributions quantify what we believe about the key parameters of interest having seen the data.</li>
+                </section>
+                <section>
+                    <b>We didn't have to stop at two: </b>It was trivial to add in a third and fourth group into the mix.
+                </section>
+                <section>
+                    But what if our data were <i>not</i> t-distributed?
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Let's talk about clicking on websites.</h2>
+                </section>
+                <section>
+                    <img src="./assets/images/clicks.png" alt="">
+                    <p>Which intervention helped our customers find what they were looking for?</p>
+                </section>
+                <section>
+                    <img src="https://i.imgflip.com/2z633z.jpg" alt="">
+                </section>
+                <section>
+                    <img src="./assets/images/clicks.png" alt="">
+                    <ul>
+                        <li><b>Zero-inflation: </b>Model P(no click).</li>
+                        <li><b>Count data: </b>Continuous distribution is inappropriate.</li>
+                    </ul>
+                </section>
+                <section>
+                    <img src="./assets/images/clicks.png" alt="">
+                    <p>Zero-inflated negative binomial distribution.</p>
+                    <ul>
+                        <li>$P(0)$ and $P(\text{not }0)$</li>
+                        <li>$P(\text{purchase} | \text{not }0)$</li>
+                    </ul>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ```python
+                        with pm.Model() as model:
+                            # Priors for ZINB model: mu and alpha.
+                            mu_prior_lam = pm.HalfCauchy('mu_prior_lam', beta=1)
+                            mu = pm.HalfNormal('mu', sd=mu_prior_lam, shape=(3,))
+                            mu_enc = mu[data['experiment_group_enc']]
+
+                            alpha_prior_lam = pm.HalfCauchy('alpha_prior_lam', beta=1)
+                            alpha = pm.HalfNormal('alpha',sd=alpha_prior_lam, shape=(3,))
+                            alpha_enc = alpha[data['experiment_group_enc']]
+
+                            # Model the probability of purchasing.
+                            p_purchase = pm.Deterministic(
+                                'p_purchase', alpha / (mu + alpha)
+                            )
+
+                            # Model the probability of being non-zero.
+                            p = pm.Beta('p', alpha=1, beta=1, shape=(3,))
+                            p_enc = p[data['experiment_group_enc']]
+
+                            like = pm.ZeroInflatedNegativeBinomial(
+                                'like',
+                                mu=mu_enc,
+                                alpha=alpha_enc,
+                                psi=p_enc,
+                                observed=data['clicks']
+                            )
+                        ```
+                    </textarea>
+                </section>
+                <section>
+                    <img src="./assets/images/click.p.forest.png">
+                    <p>Putting images of rooms increases probability of clicking on anything at all.</p>
+                </section>
+                <section>
+                    <img src="./assets/images/click.p_purchase.forest.png">
+                    <p>Putting images of rooms maintains probability of purchasing an item.</p>
+                </section>
+                <section>
+                    <h3>Key Takeaways</h3>
+                    <ul>
+                        <li>3 or more groups possible.</li>
+                        <li>We didn't need the t-test.</li>
                     </ul>
                 </section>
             </section>
-
         </div>
     </div>
 
@@ -106,9 +362,16 @@
                 { src: './assets/revealjs/plugin/markdown/marked.js' },
                 { src: './assets/revealjs/plugin/markdown/markdown.js' },
                 { src: './assets/revealjs/plugin/notes/notes.js', async: true },
-                { src: './assets/revealjs/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
-            ]
+                { src: './assets/revealjs/plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: './assets/revealjs/plugin/math/math.js', async: true }
+            ],
+            history: true,
         });
+
+        Reveal.configure({
+            slideNumber: true,
+            slideNumber: 'c/t',
+        })
     </script>
 </body>
 
