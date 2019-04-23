@@ -69,11 +69,10 @@
                     <p>I'm here to share two messages.</p>
                 </section>
                 <section>
-                    <p><b>Message 1: </b>You can do comparisons beyond just group "A" and group "B". With Bayesian
-                        methods, you can add groups "C", "D", "E" and more.</p>
+                    <p><b>Message 1: </b>You're not confined to just "group A vs. group B".</p>
                 </section>
                 <section>
-                    <p><b>Message 2: </b>You don't have to stick to t-distributions.</p>
+                    <p><b>Message 2: </b>You're not confined to t-test assumptions.</p>
                 </section>
             </section>
             <section id="preliminaries">
@@ -82,12 +81,12 @@
                     <img src="assets/images/beliefs.jpg">
                 </section>
                 <section>
-                    <h2>Assumed Knowledge</h2>
-                    <ul>Bayesian statistics is not foreign to you, but nonetheless not .</ul>
+                    <ul>Also assuming that Bayesian statistics is not foreign to you, but it's nonetheless not your daily bread.</ul>
                 </section>
                 <section>
                     <h2>Talk Features</h2>
                     <ul>
+                        <li>Minimal, but some jargon here. Please ask at the end for clarification.</li>
                         <li></li>
                     </ul>
                 </section>
@@ -100,10 +99,19 @@
                     </blockquote>
                 </section>
             </section>
+            <section>
+                <section>
+                    <p>Outline</p>
+                    <ul>
+                        <li>Vignette 1: IQ</li>
+                        <li>Vignette 2: Clicks</li>
+                    </ul>
+                </section>
+            </section>
             <section id="drug-iq-example">
                 <section>
                     <h2>Example 1: Drug IQ Example</h2>
-                    <p>Taken from Kruschke, 2013.</p>
+                    <p>Modified from Kruschke, 2013.</p>
                 </section>
                 <section>
                     <img src="assets/images/drug-two-group.png" alt="two groups testing">
@@ -200,7 +208,6 @@
                         <li>P-values?</li>
                         <li>Direction of effect and actionable inferences?</li>
                     </ul>
-                    <p>Do we really need a convoluted, canned, statistical protocol?</p>
                 </section>
                 <section>
                     <ul>
@@ -264,7 +271,7 @@
                     <h2>Key Lessons</h2>
                 </section>
                 <section>
-                    <b>No multiple hypothesis correction: </b>Posterior distributions quantify what we believe about the key parameters of interest having seen the data.</li>
+                    <b>Just compare posteriors: </b>Posterior distributions quantify what we believe about the key parameters of interest having seen the data.</li>
                 </section>
                 <section>
                     <b>We didn't have to stop at two: </b>It was trivial to add in a third and fourth group into the mix.
@@ -284,14 +291,14 @@
                 <section>
                     <img src="https://i.imgflip.com/2z633z.jpg" alt="">
                 </section>
-                <section>
+                <section data-transition="zoom-out">
                     <img src="./assets/images/clicks.png" alt="">
                     <ul>
                         <li><b>Zero-inflation: </b>Model P(no click).</li>
                         <li><b>Count data: </b>Continuous distribution is inappropriate.</li>
                     </ul>
                 </section>
-                <section>
+                <section data-transition="zoom-in">
                     <img src="./assets/images/clicks.png" alt="">
                     <p>Zero-inflated negative binomial distribution.</p>
                     <ul>
@@ -344,6 +351,27 @@
                     <ul>
                         <li>3 or more groups possible.</li>
                         <li>We didn't need the t-test.</li>
+                        <li>Carefully constructing the white-box model let us separate out interpretable effects.</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <p><b>Message 1: </b>You're not confined to just "group A vs. group B".</p>
+                </section>
+                <section>
+                    <p><b>Message 2: </b>You're not confined to t-test assumptions.</p>
+                </section>
+                <section>
+                    <p><b>Bonus Message: </b>You can better interpret your data with Bayesian methods!</p>
+                </section>
+                <section>
+                    <h2>Learn More</h2>
+                    <ul>
+                        <li><a href="https://docs.pymc.io">PyMC3 Docs</a></li>
+                        <li><a href="https://www.amazon.com/Bayesian-Analysis-Python-Introduction-probabilistic/dp/1789341655">Bayesian Analysis with Python 2nd Ed.</a></li>
+                        <li><a href="https://github.com/ericmjl/bayesian-stats-modelling-tutorial/">Bayesian Stats Modelling Tutorial @ PyCon/SciPy</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL1Ma_1DBbE82OVW8Fz_6Ts1oOeyOAiovy">PyMC3 YouTube Playlist</a></li>
                     </ul>
                 </section>
             </section>
