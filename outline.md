@@ -197,11 +197,11 @@ Put more precisely, we can map those ideas onto the parameters:
 
 So, what do our model reveal?
 
-![Trace plots for all parameters](./images/click.posterior.trace.png)
+![Trace plots for all parameters](.assets/images/click.posterior.trace.png)
 
-![Forest plots for `p` parameter](./images/click.p.forest.png)
+![Forest plots for `p` parameter](.assets/images/click.p.forest.png)
 
-![Forest plots for `p_purchase` parameter](./images/click.p_purchase.forest.png)
+![Forest plots for `p_purchase` parameter](.assets/images/click.p_purchase.forest.png)
 
 Intervention 0 is our baseline; both interventions 1 and 2 increase the probability that our customers click a hotel, while only intervention 1 also increases the probability that our customers will actually make a purchase. What was intervention 1? It was the website putting up mouseovers of pictures! Turns out pictures are pretty darn effective!
 
