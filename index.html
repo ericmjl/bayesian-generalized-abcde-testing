@@ -28,7 +28,7 @@
     <div class="reveal">
         <div class="slides">
             <section>
-                Scan QR code to get the slides.
+                <p>Scan QR code to get the slides.</p>
                 <img src="assets/images/qrcode.png">
             </section>
             <section id="title">
@@ -64,36 +64,39 @@
                 </table>
             </section>
             <section id="main-points">
-                <h2>Main Points</h2>
                 <section>
                     <p>Most data science talks tell you how to do 2 group comparisons, i.e. "A/B" tests, with the
                         t-test.</p>
                 </section>
                 <section>
-                    <p>I'm here to share two messages.</p>
-                </section>
-                <section>
-                    <p><b>Message 1: </b>You're not confined to just "group A vs. group B".</p>
-                </section>
-                <section>
-                    <p><b>Message 2: </b>You're not confined to t-test assumptions.</p>
+                    <h2>I have Three Messages</h2>
+                    <ul>
+                        <li class="fragment"><b>Message 1: </b>You don't have to be stuck with two groups and normal distribution assumptions.</li>
+                        <li class="fragment"><b>Message 2: </b>PyMC3 is a great language for probabilistic modelling.</li>
+                        <li class="fragment"><b>Message 3: </b>With Bayesian modelling, we can move away from canned statistical procedures, and do statistics in a principled fashion.</li>
+                    </ul>
                 </section>
             </section>
             <section id="preliminaries">
+                <h2>Assumed Knowledge</h2>
                 <section>
-                    <h2>Assumed Knowledge</h2>
                     <img src="assets/images/beliefs.jpg">
                 </section>
                 <section>
-                    <ul>Also assuming that Bayesian statistics is not foreign to you, but it's nonetheless not your daily bread.</ul>
+                    <img src="assets/images/bayes-neon-lights.jpg">
+                    <p>Bayesian inference: updating beliefs with new data.</p>
                 </section>
                 <section>
-                    <h2>Talk Features</h2>
-                    <ul>
-                        <li>Minimal, but some jargon here. Please ask at the end for clarification.</li>
-                        <li>Focus on data storytelling, interpretation.</li>
-                    </ul>
+                    <img src="https://cdn.rawgit.com/pymc-devs/pymc3/master/docs/logos/svg/PyMC3_banner.svg">
+                    <p>Some familiarity with PyMC3 syntax.</p>
                 </section>
+            </section>
+            <section>
+                <h2>Talk Features</h2>
+                <ul>
+                    <li>Minimal, but some jargon here.</li>
+                    <li>Vignettes that illustrate a point.</li>
+                </ul>
             </section>
             <section id="hans-rosling-quote">
                 <section data-background-video="./assets/hans-rosling-crop.mkv">
@@ -103,25 +106,13 @@
                     </blockquote>
                 </section>
             </section>
-            <section>
-                <section>
-                    <p>Outline</p>
-                    <ul>
-                        <li>Vignette 1: IQ</li>
-                        <li>Vignette 2: Clicks</li>
-                    </ul>
-                </section>
-            </section>
             <section id="drug-iq-example">
                 <section>
-                    <h2>Example 1: Drug IQ Example</h2>
+                    <h2>Vignette 1: Drug IQ Example</h2>
                     <p>Modified from Kruschke, 2013.</p>
                 </section>
                 <section>
                     <img src="assets/images/drug-two-group.png" alt="two groups testing">
-                </section>
-                <section>
-                    <p>Let's bust out the t-test!</p>
                 </section>
                 <section data-markdown>
                     <textarea data-template>
@@ -136,13 +127,7 @@
                     </textarea>
                 </section>
                 <section>
-                    What if we had 4 groups instead of 2?
-                </section>
-                <section>
                     <img src="assets/images/drug-four-group.png" alt="four groups testing">
-                </section>
-                <section>
-                    <p>Let's bust out the ANOVA + post-hoc t-test!</p>
                 </section>
                 <section data-markdown>
                     <textarea data-template>
@@ -157,15 +142,12 @@
                     </textarea>
                 </section>
                 <section>
-                        <h2>Not statistically significant!!!</h2>
-                        <img src="./assets/images/kermit-oh-no.gif" alt="">
-                </section>
-                <section>
-                    <p>Let's continue anyways.</p>
+                    <h2>Not statistically significant!!!</h2>
+                    <img src="./assets/images/kermit-oh-no.gif" alt="">
                 </section>
                 <section data-markdown>
                     <textarea data-template>
-                        ### Pairwise t-tests:
+                        ### Multiple Hypothesis Guillotine
 
                         ```python
                         >>> ttest_ind(drug, placebo)
@@ -187,15 +169,12 @@
                         ```
                     </textarea>
                 </section>
-                <section data-markdown>
-                    What now? Multiple hypothesis correction?
-                </section>
                 <section>
                     <p>What if I had more groups tested together?</p>
                     <img src="assets/images/groups_choose_two.png">
                 </section>
                 <section>
-                    <h2>Problem 1: Violated Assumptions</h2>
+                    <h2>Violated Assumptions</h2>
                     <ul>
                         <li>Data are normally distributed?</li>
                         <li>Standard deviations are equal?</li>
@@ -205,13 +184,6 @@
                 <section>
                     <p>Let's stop violating assumptions.</p>
                     <img src="https://i.chzbgr.com/full/7018290432/h3DEC1F2B/" alt="">
-                </section>
-                <section>
-                    <h2>Problem 2: What are we actually interested in?</h2>
-                    <ul>
-                        <li>P-values?</li>
-                        <li>Direction of effect and actionable inferences?</li>
-                    </ul>
                 </section>
                 <section>
                     <ul>
@@ -226,10 +198,13 @@
                         with pm.Model() as model:
                             # Model Parameters
                             mu = pm.Normal('mu', mu=0, sd=10, shape=n_groups)
+
+                            # Assume each group has its own variance.
                             sigma = pm.HalfCauchy('sigma', beta=5, shape=n_groups)
                             nu = pm.Exponential('nu', lam=1/29.)
 
                             # Likelihood
+                            # Explicitly encode liklihood as t-distributed.
                             like = pm.StudentT(
                                 'like',
                                 mu=mu[df['group_enc']],
@@ -243,12 +218,12 @@
                     </textarea>
                 </section>
                 <section>
-                    <p>Compare this:</p>
+                    <h3>Posteriors are all you need</h3>
                     <img style="max-height:80%; max-width:60%" src="assets/images/drug-four-group-forest.png">
                 </section>
                 <section data-markdown>
                         <textarea data-template>
-                            Against this:
+                            ### Multiple Hypothesis Guillotine
 
                             ```python
                             >>> ttest_ind(drug, placebo)
@@ -272,13 +247,39 @@
                     </section>
 
                 <section>
-                    <h2>Key Lessons</h2>
+                    <h2>Two Key Lessons</h2>
                 </section>
                 <section>
-                    <b>Just compare posteriors: </b>Posterior distributions quantify what we believe about the key parameters of interest having seen the data.</li>
+                    <h3>Posteriors are all you need</h3>
+                    <img style="max-height:80%; max-width:60%" src="assets/images/drug-four-group-forest.png">
                 </section>
-                <section>
-                    <b>We didn't have to stop at two: </b>It was trivial to add in a third and fourth group into the mix.
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Don't stop at two groups
+
+                        ```python
+                        n_groups = len(df['group'].unique())
+                        with pm.Model() as model:
+                            # Model Parameters
+                            mu = pm.Normal('mu', mu=0, sd=10, shape=n_groups)
+
+                            # Assume each group has its own variance.
+                            sigma = pm.HalfCauchy('sigma', beta=5, shape=n_groups)
+                            nu = pm.Exponential('nu', lam=1/29.)
+
+                            # Likelihood
+                            # Explicitly encode liklihood as t-distributed.
+                            like = pm.StudentT(
+                                'like',
+                                mu=mu[df['group_enc']],
+                                sd=sigma[df['group_enc']],
+                                nu=nu,
+                                observed=df['iq'].values
+                            )
+
+                            trace = pm.sample(2000)
+                        ```
+                    </textarea>
                 </section>
                 <section>
                     But what if our data were <i>not</i> t-distributed?
@@ -304,10 +305,10 @@
                 </section>
                 <section data-transition="zoom-in">
                     <img src="./assets/images/clicks.png" alt="">
-                    <p>Zero-inflated negative binomial distribution.</p>
+                    <p>Zero-inflated negative binomial distribution models two processes.</p>
                     <ul>
-                        <li>$P(0)$ and $P(\text{not }0)$</li>
-                        <li>$P(\text{purchase} | \text{not }0)$</li>
+                        <li>No intent to click</li>
+                        <li>"how many clicks before stopping?"</li>
                     </ul>
                 </section>
                 <section data-markdown>
@@ -328,7 +329,7 @@
                                 'p_purchase', alpha / (mu + alpha)
                             )
 
-                            # Model the probability of being non-zero.
+                            # Model the probability of being non-zero-inflating group.
                             p = pm.Beta('p', alpha=1, beta=1, shape=(3,))
                             p_enc = p[data['experiment_group_enc']]
 
@@ -353,21 +354,26 @@
                 <section>
                     <h3>Key Takeaways</h3>
                     <ul>
-                        <li>3 or more groups possible.</li>
-                        <li>We didn't need the t-test.</li>
-                        <li>Carefully constructing the white-box model let us separate out interpretable effects.</li>
+                        <li class="fragment">3 or more groups possible.</li>
+                        <li class="fragment">We didn't need the t-test.</li>
+                        <li class="fragment">Carefully constructing the white-box model let us separate out interpretable effects.</li>
                     </ul>
                 </section>
             </section>
             <section>
                 <section>
-                    <p><b>Message 1: </b>You're not confined to just "group A vs. group B".</p>
-                </section>
-                <section>
-                    <p><b>Message 2: </b>You're not confined to t-test assumptions.</p>
+                    <h2>I have Three Messages</h2>
+                    <ul>
+                        <li class="fragment"><b>Message 1: </b>You don't have to be stuck with two groups and normal distribution assumptions.</li>
+                        <li class="fragment"><b>Message 2: </b>PyMC3 is a great language for probabilistic modelling.</li>
+                        <li class="fragment"><b>Message 3: </b>With Bayesian modelling, we can move away from canned statistical procedures, and do statistics in a principled fashion.</li>
+                    </ul>
                 </section>
                 <section>
                     <p><b>Bonus Message: </b>You can better interpret your data with Bayesian methods!</p>
+                </section>
+                <section>
+                    <h1>Thank you!</h1>
                 </section>
                 <section>
                     <h2>Learn More</h2>
