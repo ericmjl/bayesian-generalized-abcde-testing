@@ -1,0 +1,7 @@
+.reveal section img {
+    background:none;
+    border:none;
+    box-shadow:none;
+    max-height: 45vh;
+    width: auto;
+}
